@@ -25,8 +25,6 @@ public class main {
             while (line != null){
 
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
