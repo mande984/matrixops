@@ -101,9 +101,29 @@ public class Matrix {
      * @param m the matrix to multiply with
      * @return the product as a matrix
      */
-    //TODO
-    public Matrix matrixMultiply(Matrix m) throws MatrixException{
-        return null;
+    public Matrix matrixMultiply(Matrix m) throws MatrixException {
+        //Checking if the matrices can be multiplied
+        if (this.columns != m.rows) {
+            throw new MatrixException("Matrices cannot be multiplied! The " +
+                    "amount of columns in the first matrix must be equal to " +
+                    "the amount of rows in the second!");
+        }
+        Matrix solution = new Matrix(this.rows, m.columns);
+        int sum = 0;
+        //Loop through the first matrix's rows
+        for (int i = 0; i < this.rows; i++) {
+            //Loop through the second matrix's columns
+            for (int j = 0; j < m.columns; j++) {
+                //Loop through the second matrix's rows
+                for (int k = 0; k < m.rows; k++) {
+                    sum += this.getValue(i, k) * m.getValue(k, j);
+                }
+                solution.setArray(i, j, sum);
+                sum = 0;
+            }
+        }
+
+        return solution;
     }
 
     /**
