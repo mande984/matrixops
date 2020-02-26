@@ -36,6 +36,17 @@ public class Matrix {
     }
 
     /**
+     * emptyArray is a method for testing that sets a matrix's contents to 0
+     */
+    public void emptyArray() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                this.setArray(i, j, 0);
+            }
+        }
+    }
+
+    /**
      * randomPopulate is a method used for testing that uses Math.random() to
      * populate the matrix with numbers from 0-10
      */
@@ -100,6 +111,7 @@ public class Matrix {
      *
      * @param m the matrix to multiply with
      * @return the product as a matrix
+     * @throws MatrixException if the matrices cannot be multiplied together
      */
     public Matrix matrixMultiply(Matrix m) throws MatrixException {
         //Checking if the matrices can be multiplied
@@ -148,6 +160,7 @@ public class Matrix {
      *
      * @param m the matrix to be added
      * @return the sum as a matrix
+     * @throws MatrixException if the matrices cannot be added together
      */
     public Matrix matrixAddition(Matrix m) throws MatrixException {
         //Checking if the matrices can be added
@@ -166,6 +179,63 @@ public class Matrix {
         }
 
         return solution;
+    }
+
+    /**
+     * det is a method that finds the determinant of the matrix
+     *
+     * @return the determinant of the matrix
+     * @throws MatrixException if the matrix is not square
+     */
+    public int det() throws MatrixException {
+        if (this.rows != this.columns) {
+            throw new MatrixException("Cannot find the determinant of this " +
+                    "matrix! To find the determinant, the matrix must be " +
+                    "square (rows = columns!");
+        }
+        if (this.rows == 2) {
+            return leibniz(this);
+        }
+        if (this.rows == 3) {
+            return laplace(this);
+        }
+        //TODO: Create recursive way to get matrices down to 4x4 and then
+        // throw them back up using laplace function
+        return 0;
+    }
+
+    /**
+     * leibniz is a method that returns the determinant of a 2x2 matrix using
+     * the form ad-bc
+     *
+     * @param m the matrix to find the determinant of
+     * @return the determinant
+     */
+    public int leibniz(Matrix m) {
+        int ad = (m.getValue(0, 0) * m.getValue(1, 1));
+        int bc = (m.getValue(0, 1) * m.getValue(1, 0));
+        return ad - bc;
+    }
+
+    /**
+     * laplace is a method that returns the determinant of a 3x3 matrix using
+     * the form aei + bfg + cdh - ceg - bdi - afh
+     *
+     * @param m the matrix to find the determinant of
+     * @return the determinant
+     */
+    public int laplace(Matrix m) {
+        int a = m.getValue(0, 0);
+        int b = m.getValue(0, 1);
+        int c = m.getValue(0, 2);
+        int d = m.getValue(1, 0);
+        int e = m.getValue(1, 1);
+        int f = m.getValue(1, 2);
+        int g = m.getValue(2, 0);
+        int h = m.getValue(2, 1);
+        int i = m.getValue(2, 2);
+
+        return (a * e * i) + (b * f * g) + (c * d * h) - (c * e * g) - (b * d * i) - (a * f * h);
     }
 
 

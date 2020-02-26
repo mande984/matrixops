@@ -7,18 +7,28 @@ import javafx.util.Pair;
 
 public class main {
     public static void main(String[] args) {
-        Matrix m = new Matrix(2, 2);
-        Matrix m2 = new Matrix(3, 2);
-        m.randomPopulate();
-        m2.randomPopulate();
-        try {
-            Matrix m3 = m.matrixMultiply(m2);
-            System.out.println("1st Array: \n" + m.toString());
-            System.out.println("2nd Array: \n" + m2.toString());
-            System.out.println("Solution: \n" + m3.toString());
-        } catch (MatrixException e) {
-            System.out.println(e.getMessage());
-        }
+        Matrix empty = new Matrix(4,4);
+        empty.emptyArray();
 
+        //Randomly populated arrays will be populated by integers from 0-10
+        Matrix [] oneRow = new Matrix[4];
+        Matrix [] twoRow = new Matrix[4];
+        Matrix [] threeRow = new Matrix[4];
+        Matrix [] fourRow = new Matrix[4];
+
+        oneRow = populateMatrices(oneRow, 1);
+        twoRow = populateMatrices(twoRow, 2);
+        threeRow = populateMatrices(threeRow, 3);
+        fourRow = populateMatrices(fourRow, 4);
+
+        //TODO: Write tests for Matrix functions
+    }
+
+    public static Matrix[] populateMatrices(Matrix [] m, int row){
+        for (int col = 0; col < 4; col++){
+            m[col] = new Matrix(row, col+1);
+            m[col].randomPopulate();
+        }
+        return m;
     }
 }
